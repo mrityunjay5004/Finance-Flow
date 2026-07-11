@@ -268,6 +268,15 @@ td {
 }
 .switch-auth a:hover { text-decoration: underline; }
 
+/* Password hint */
+.password-hint {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  text-align: left;
+  margin: -8px 0 12px 2px;
+  opacity: 0.75;
+}
+
 /* Auth feedback message */
 .auth-msg {
   margin-top: 14px;

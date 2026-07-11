@@ -169,10 +169,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load all in parallel; handle each independently
     const [sumRes, trendsRes, recordsRes] = await Promise.allSettled([
-      fetch(`${API_BASE}/dashboard/summary`,        { headers }),
-      fetch(`${API_BASE}/dashboard/monthly-trends`, { headers }),
-      fetch(`${API_BASE}/records`,                  { headers }),
+      fetchWithTimeout(`${API_BASE}/dashboard/summary`,        { headers }),
+      fetchWithTimeout(`${API_BASE}/dashboard/monthly-trends`, { headers }),
+      fetchWithTimeout(`${API_BASE}/records`,                  { headers }),
     ]);
+
+    // Check for 403 (viewer role) on dashboard
+    if (sumRes.status === 'fulfilled' && sumRes.value.status === 403) {
+      document.getElementById('stat-income').textContent  = 'N/A';
+      document.getElementById('stat-expense').textContent = 'N/A';
+      document.getElementById('stat-balance').textContent = 'N/A';
+      document.getElementById('records-list').innerHTML =
+        '<tr><td colspan="4" style="text-align:center;opacity:0.6;padding:2rem">Your account has limited access.<br>Please log out and register a new account.</td></tr>';
+      return;
+    }
 
     // Summary
     if (sumRes.status === 'fulfilled') {

@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: Object.values(ROLES),
-      default: ROLES.VIEWER,
+      default: ROLES.ANALYST,
     },
     status: {
       type: String,
