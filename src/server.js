@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require('path');
 
 const connectDB = require('./config/db');
 const routes = require('./routes');
@@ -13,7 +14,7 @@ const port = process.env.PORT || 5000;
 // Essential Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '../public')));
 
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));

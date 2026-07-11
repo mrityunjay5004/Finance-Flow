@@ -12,7 +12,7 @@ const register = async ({ name, email, password }) => {
     throw new ApiError(409, 'Email already in use');
   }
 
-  const user = await User.create({ name, email, password });
+  const user = await User.create({ name, email, password, role: 'analyst' });
   
   return {
     user: { id: user._id, name, email, role: user.role },
