@@ -77,7 +77,8 @@ describe('Record API and RBAC', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toMatch(/deleted/i);
 
-    const checkRecord = await Record.findById(recordId);
+    const mongoose = require('mongoose');
+    const checkRecord = await Record.collection.findOne({ _id: new mongoose.Types.ObjectId(recordId) });
     expect(checkRecord.isDeleted).toBe(true);
   });
 });
