@@ -254,3 +254,58 @@ td {
 }
 
 .hidden { display: none; }
+
+/* Switch auth link */
+.switch-auth {
+  margin-top: 20px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+.switch-auth a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+.switch-auth a:hover { text-decoration: underline; }
+
+/* Auth feedback message */
+.auth-msg {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  text-align: left;
+}
+.auth-msg-error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+.auth-msg-success {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #6ee7b7;
+}
+
+/* flex-end utility */
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Auth card submit button full width */
+#login-form .btn, #register-form .btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+/* Chart container */
+.chart-container {
+  position: relative;
+  height: 320px;
+  margin-top: 20px;
+}
+
