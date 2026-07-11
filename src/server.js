@@ -35,7 +35,11 @@ app.use(async (req, res, next) => {
     await connectDB();
     next();
   } catch (err) {
-    next(err);
+    console.error('DB connection error:', err.message);
+    return res.status(503).json({
+      success: false,
+      message: 'Database unavailable. Check MONGO_URI in environment variables.',
+    });
   }
 });
 

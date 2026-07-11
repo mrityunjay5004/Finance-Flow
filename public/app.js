@@ -5,6 +5,21 @@
 const API_BASE = '/api';
 let trendsChart = null;
 
+// Fetch with 8-second timeout so buttons never get permanently stuck
+async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(timer);
+    return res;
+  } catch (err) {
+    clearTimeout(timer);
+    if (err.name === 'AbortError') throw new Error('Request timed out. The server may be unreachable.');
+    throw err;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // ── UI Element References ──────────────────────────────────────────────────
   const authScreen      = document.getElementById('auth-screen');
@@ -65,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearAuthMessage();
 
     try {
-      const res  = await fetch(`${API_BASE}/auth/register`, {
+      const res  = await fetchWithTimeout(`${API_BASE}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
@@ -100,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearAuthMessage();
 
     try {
-      const res  = await fetch(`${API_BASE}/auth/login`, {
+      const res  = await fetchWithTimeout(`${API_BASE}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -259,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setButtonLoading(btn, true, 'Save Transaction');
 
     try {
-      const res  = await fetch(`${API_BASE}/records`, {
+      const res  = await fetchWithTimeout(`${API_BASE}/records`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(body),
