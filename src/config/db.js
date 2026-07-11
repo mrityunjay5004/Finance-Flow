@@ -9,7 +9,8 @@ let isConnected = false;
 const connectDB = async () => {
   mongoose.set('strictQuery', true);
 
-  if (isConnected) {
+  if (isConnected || mongoose.connection.readyState === 1 || mongoose.connection.readyState === 2) {
+    isConnected = true;
     return;
   }
 

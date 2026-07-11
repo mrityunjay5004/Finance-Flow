@@ -28,6 +28,16 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Database Connection Middleware for Serverless Environment
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Routes
 app.use('/api', routes);
 
